@@ -14,6 +14,7 @@ const NavLinks = ({ handleClick }) => (
         key={link.name}
         to={link.to}
         onClick={() => handleClick && handleClick()}
+        end
       >
         <link.icon className="w-6 h-6 mr-2" />
         {link.name}
@@ -28,12 +29,11 @@ const Sidebar = () => {
   return (
     <>
       <div className="md:flex hidden flex-col w-[240px] py-10 px-4 bg-[#191624]">
-        <NavLink to="/">
         <img src={logo} alt="logo" className="w-full h-14 object-contain" />
-        </NavLink>
+        <NavLinks />
       </div>
 
-      <div className="absolute md:hidden block top-6 right-3">
+      <div className="absolute md:hidden block top-6 right-3 z-10">
         { mobileMenuOpen ? (
           <RiCloseLine 
             onClick={() => setMobileMenuOpen(false)}
