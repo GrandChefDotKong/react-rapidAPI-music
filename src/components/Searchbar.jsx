@@ -18,7 +18,7 @@ const Searchbar = () => {
       className="p-2 text-gray-400 focus-within:text-gray-600"
       onSubmit={handleSubmit}
     >
-      <label htmlFor="search-field" className="st-only">
+      <label htmlFor="search-field" className="sr-only">
         Search all songs
       </label>
       <div className="flex flex-row justify-start items-center">
