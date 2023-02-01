@@ -11,8 +11,7 @@ import { useGetTopChartsQuery } from "../redux/services/shazamCore";
 import 'swiper/css';
 import 'swiper/css/free-mode';
 
-
-const TopChartCard = ({ song, i, isPlaying, activeSong, handlePauseClick, handlePlayClick }) => [
+const TopChartCard = ({ song, i, isPlaying, activeSong, handlePauseClick, handlePlayClick }) => (
   <div className="w-full flex flex-row items-center hover:bg-[#4c426e] py-2 p-4 rounded-lg cursor-pointer mb-2">
     <h3 className="font-bold text-base text-white mr-3">{ i + 1 }.</h3>
     <div className="flex-1 flex flex-row justify-between items-center">
@@ -21,7 +20,7 @@ const TopChartCard = ({ song, i, isPlaying, activeSong, handlePauseClick, handle
         <Link to={`/songs/${song.key}`}>
           <p className="text-xl font-bold text-white">{ song?.title }</p>
         </Link>
-        <Link to={`/artists/${song?.artists[0]?.adamid}`}>
+        <Link to={song?.artists ? `/artists/${song?.artists[0].adamid}` : ''}>
           <p className="text-base text-gray-300 mt-1">{ song?.subtitle }</p>
         </Link>
       </div>
@@ -34,7 +33,7 @@ const TopChartCard = ({ song, i, isPlaying, activeSong, handlePauseClick, handle
       handlePlay={handlePlayClick}
     />
   </div>
-]
+);
 
 const TopPlay = () => {
   const dispatch = useDispatch();
@@ -57,6 +56,7 @@ const TopPlay = () => {
     dispatch(playPause(true));
   };
 
+
   return (
     <div ref={divRef} className="xl:ml-6 mi-0 xl:mb-0 mb-6 flex-1 xl:max-w-[500px] max-w-full flex flex-col">
       <div className="w-full flex flex-col">
@@ -69,7 +69,7 @@ const TopPlay = () => {
         <div className="mt-4 flex flex-col gap-1">
           { topPlays?.map((song, i) => (
             <TopChartCard 
-              key={song.key}
+              key={`${song.key}-${Math.random()}`}
               song={song} 
               i={i} 
               isPlaying={isPlaying} 
@@ -96,7 +96,8 @@ const TopPlay = () => {
           modules={[FreeMode]}
           className="mt-4"
         >
-          { topPlays?.map((song) => (
+          { topPlays?.map((song) => {
+            song?.artists && (
             <SwiperSlide 
               key={song.key}
               style={{ width: '25%', height: 'auto' }}
@@ -106,7 +107,7 @@ const TopPlay = () => {
                 <img src={song?.images.background} alt={song?.subtitle} className="rounded-full w-full object-cover" />
               </Link>
             </SwiperSlide>
-          ))}
+          )})}
         </Swiper>
       </div>
     </div>
